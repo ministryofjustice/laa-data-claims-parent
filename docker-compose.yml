@@ -1,0 +1,6 @@
+name: "Submit a Bulk Claim Services"
+
+include:
+  - laa-data-claims-api/docker-compose.yml
+  - laa-data-claims-event-service/docker-compose.yml
+  - laa-submit-a-bulk-claim/docker-compose.yaml

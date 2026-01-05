@@ -1,2 +1,47 @@
 # laa-data-claims-parent
-Parent repository with common docker compose setup scripts
+Parent repository with common docker compose to help run multiple child 
+services locally within docker for a more lightweight development experience.
+
+This will clone the following repositories:
+- [laa-data-claims-api](https://github.com/ministryofjustice/laa-data-claims-api)
+- [laa-data-claims-event-service](https://github.com/ministryofjustice/laa-data-claims-event-service)
+- [laa-submit-a-bulk-claim](https://github.com/ministryofjustice/laa-submit-a-bulk-claim)
+
+## Setup (via already cloned child repositories)
+If you have already got the various child repositories cloned, you can just copy the `docker-compose.yml` file
+to the root of the three repositories in the following file structure:
+
+```text
+.
+├── docker-compose.yml
+├── .env
+├── laa-data-claims-api/
+├── laa-data-claims-event-service/
+└── laa-submit-a-bulk-claim/
+```
+
+## Setup (via fresh clone)
+If you wish to use this repository as a base to clone other repositories, run the following command:
+
+```sh
+# Initialize and fetch submodules (for new clones)
+git submodule update --init --recursive
+```
+
+## Running child services via docker
+Using the `docker-compose.yml` file in the root of this repository, you can start all child services via docker:
+```sh
+docker-compose up -d claims-api event-service sabc-ui --build
+```
+
+Note the three service names:
+- `claims-api`
+- `event-service`
+- `sabc-ui`
+
+If you wish to only run a subset of these child services, simply omit the service you don't 
+want to run via docker. In this example, I want the claims API and event service, but I will 
+be running the UI via IntelliJ:
+```sh
+docker-compose up -d claims-api event-service --build
+```
