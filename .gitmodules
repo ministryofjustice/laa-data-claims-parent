@@ -8,5 +8,5 @@
 	brand = main
 [submodule "laa-data-claims-api"]
 	path = laa-data-claims-api
-	url = https://github.com/ministryofjustice/laa-data-claims-api/tree/main
+	url = git@github.com:ministryofjustice/laa-data-claims-api.git
 	brand = main
