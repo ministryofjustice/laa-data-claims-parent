@@ -59,6 +59,9 @@ Or to tear everything down and start it all again each time:
 docker-compose down -v; docker-compose up -d claims-api event-service sabc-ui --build
 ```
 
+In further runs, if you don't wish to build the services, you can omit the `--build` flag to 
+save time.
+
 Note the three service names:
 
 - `claims-api`
