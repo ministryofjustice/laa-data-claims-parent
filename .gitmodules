@@ -1,9 +1,12 @@
 [submodule "laa-submit-a-bulk-claim"]
 	path = laa-submit-a-bulk-claim
 	url = git@github.com:ministryofjustice/laa-submit-a-bulk-claim.git
+	brand = main
 [submodule "laa-data-claims-event-service"]
 	path = laa-data-claims-event-service
 	url = git@github.com:ministryofjustice/laa-data-claims-event-service.git
+	brand = main
 [submodule "laa-data-claims-api"]
 	path = laa-data-claims-api
 	url = git@github.com:ministryofjustice/laa-data-claims-api.git
+	brand = main
