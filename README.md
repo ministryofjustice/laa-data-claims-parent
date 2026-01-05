@@ -13,7 +13,13 @@ This will clone the following repositories:
 
 If you have already got the various child repositories cloned, you can just copy the
 `docker-compose.yml` file
-to the root of the three repositories in the following file structure:
+to the root of the three repositories in the following file structure.
+
+You will also need to make sure you have a file called `.env` in the root of this repository.
+There is an example file called `env_example` within the repo with what variables you need to set.
+You can also ask another developer for the values within data stewardship.
+
+Your folder structure should look like this:
 
 ```text
 .
@@ -34,6 +40,10 @@ to get the latest versions of the child repositories:
 git submodule update --init --remote --recursive
 ```
 
+You will also need to make sure you have a file called `.env` in the root of this repository.
+There is an example file called `env_example` within the repo with what variables you need to set.
+You can also ask another developer for the values within data stewardship.
+
 ## Running child services via docker
 
 Using the `docker-compose.yml` file in the root of this repository, you can start all child services
@@ -41,6 +51,12 @@ via docker:
 
 ```sh
 docker-compose up -d claims-api event-service sabc-ui --build
+```
+
+Or to tear everything down and start it all again each time:
+
+```sh
+docker-compose down -v; docker-compose up -d claims-api event-service sabc-ui --build
 ```
 
 Note the three service names:

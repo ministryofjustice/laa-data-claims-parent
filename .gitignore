@@ -13,7 +13,7 @@ laa-submit-a-bulk-claim/
 # Environment variables
 .env
 .env.local
-env_example
+env
 
 # Docker
 docker-compose.override.yml
