@@ -5,11 +5,6 @@
 *.ipr
 out/
 
-# Git submodules
-laa-data-claims-api/
-laa-data-claims-event-service/
-laa-submit-a-bulk-claim/
-
 # Environment variables
 .env
 .env.local
