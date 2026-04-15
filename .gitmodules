@@ -10,3 +10,6 @@
 	path = laa-data-claims-api
 	url = git@github.com:ministryofjustice/laa-data-claims-api.git
 	branch = main
+[submodule "laa-amend-a-claim"]
+	path = laa-amend-a-claim
+	url = https://github.com/ministryofjustice/laa-amend-a-claim.git
