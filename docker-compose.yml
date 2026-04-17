@@ -10,4 +10,4 @@ include:
   - laa-data-claims-api/docker-compose.yml
   - laa-data-claims-event-service/docker-compose.yml
   - laa-submit-a-bulk-claim/docker-compose.yaml
-  - laa-amend-a-claim/docker-compose-app.yml
+  - laa-amend-a-claim/docker-compose.yml
