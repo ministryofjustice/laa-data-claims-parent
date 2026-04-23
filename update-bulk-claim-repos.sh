@@ -3,7 +3,8 @@
 for repo in \
   laa-data-claims-api \
   laa-data-claims-event-service \
-  laa-submit-a-bulk-claim
+  laa-submit-a-bulk-claim \
+  laa-amend-a-claim
 do
   if [ -d "$repo/.git" ]; then
     echo "=== Updating $repo ==="
