@@ -5,9 +5,9 @@
 declare -a SERVICES=(
   "laa-data-claims-api|laa-data-claims-api-staging|main-data-claims-api|laa-data-claims-api-uat|laa-data-claims-api|laa-data-claims-api-prod|Data Claims API"
   "stg-submit-a-bulk-claim|laa-submit-a-bulk-claim-staging|uat-submit-a-bulk-claim|laa-submit-a-bulk-claim-uat|prod-submit-a-bulk-claim|laa-submit-a-bulk-claim-prod|Submit a Bulk Claim"
-  "stg-data-claims-events|laa-data-claims-event-service-staging|uat-data-claims-events|laa-data-claims-event-service-uat|prod-data-claims-events|laa-data-claims-event-service-prod|Amend a Claim"
+  "stg-data-claims-events|laa-data-claims-event-service-staging|uat-data-claims-events|laa-data-claims-event-service-uat|prod-data-claims-events|laa-data-claims-event-service-prod|Data Claims Event"
   "laa-fee-scheme-api-staging-deployment|laa-fee-scheme-api-staging|laa-fee-scheme-api-uat-deployment|laa-fee-scheme-api-uat|laa-fee-scheme-api-prod-deployment|laa-fee-scheme-api-prod|Fee Scheme API"
-  "laa-amend-a-claim|laa-amend-a-claim-staging|laa-amend-a-claim|laa-amend-a-claim-uat|laa-amend-a-claim|laa-amend-a-claim-production|Data Claims Events"
+  "laa-amend-a-claim|laa-amend-a-claim-staging|laa-amend-a-claim|laa-amend-a-claim-uat|laa-amend-a-claim|laa-amend-a-claim-production|Amend a Claim"
 )
 
 get_image_tag() {

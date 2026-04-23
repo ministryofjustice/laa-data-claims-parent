@@ -4,7 +4,7 @@ for repo in \
   laa-data-claims-api \
   laa-data-claims-event-service \
   laa-submit-a-bulk-claim \
-  update-bulk-claim-repos
+  laa-amend-a-claim
 do
   if [ -d "$repo/.git" ]; then
     echo "=== Updating $repo ==="
