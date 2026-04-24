@@ -78,3 +78,33 @@ be running the UI via IntelliJ:
 ```sh
 docker-compose up -d claims-api event-service --build
 ```
+
+## Exposed ports
+
+Given there being multiple services, ports are named based on the service and what part of that
+service is exposed. The last two digits identify the service:
+
+| Service                | Suffix |
+|------------------------|--------|
+| Submit a Bulk Claim    | `82`   |
+| Amend a Claim          | `90`   |
+| Claims API             | `80`   |
+| Event Service          | `81`   |
+
+Each service exposes the following ports, where `XX` is the service suffix above:
+
+| Purpose      | Port   |
+|--------------|--------|
+| App          | `80XX` |
+| Actuator     | `81XX` |
+| Remote JVM   | `50XX` |
+
+So for example, the Claims API (`80`) exposes:
+
+| Purpose      | Port   |
+|--------------|--------|
+| App          | `8080` |
+| Actuator     | `8180` |
+| Remote JVM   | `5080` |
+
+> **Note:** The Event Service does not expose an app port.
