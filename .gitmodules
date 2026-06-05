@@ -13,3 +13,4 @@
 [submodule "laa-amend-a-claim"]
 	path = laa-amend-a-claim
 	url = https://github.com/ministryofjustice/laa-amend-a-claim.git
+	branch = main
