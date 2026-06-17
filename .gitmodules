@@ -14,3 +14,7 @@
 	path = laa-amend-a-claim
 	url = https://github.com/ministryofjustice/laa-amend-a-claim.git
 	branch = main
+[submodule "laa-data-claims-notify-service"]
+	path = laa-data-claims-notify-service
+	url = https://github.com/ministryofjustice/laa-data-claims-notify-service.git
+	branch = main
