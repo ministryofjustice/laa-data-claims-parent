@@ -5,10 +5,11 @@ services locally within docker for a more lightweight development experience.
 
 This will clone the following repositories:
 
+- [laa-amend-a-claim](https://github.com/ministryofjustice/laa-amend-a-claim)
 - [laa-data-claims-api](https://github.com/ministryofjustice/laa-data-claims-api)
 - [laa-data-claims-event-service](https://github.com/ministryofjustice/laa-data-claims-event-service)
+- [laa-data-claims-notify-service](https://github.com/ministryofjustice/laa-data-claims-notify-service)
 - [laa-submit-a-bulk-claim](https://github.com/ministryofjustice/laa-submit-a-bulk-claim)
-- [laa-amend-a-claim](https://github.com/ministryofjustice/laa-amend-a-claim)
 
 ## Setup (via already cloned child repositories)
 
@@ -26,10 +27,11 @@ Your folder structure should look like this:
 .
 ├── docker-compose.yml
 ├── .env
+└── laa-amend-a-claim/
 ├── laa-data-claims-api/
 ├── laa-data-claims-event-service/
+└── laa-data-claims-notify-service/
 └── laa-submit-a-bulk-claim/
-└── laa-amend-a-claim/
 ```
 
 ## Setup (via fresh clone)
@@ -66,10 +68,11 @@ save time.
 
 Note the four service names:
 
+- `amend-ui`
 - `claims-api`
 - `event-service`
+- `notify-service`
 - `sabc-ui`
-- `amend-ui`
 
 If you wish to only run a subset of these child services, simply omit the service you don't
 want to run via docker. In this example, I want the claims API and event service, but I will
@@ -86,10 +89,11 @@ service is exposed. The last two digits identify the service:
 
 | Service                | Suffix |
 |------------------------|--------|
-| Submit a Bulk Claim    | `82`   |
 | Amend a Claim          | `90`   |
 | Claims API             | `80`   |
 | Event Service          | `81`   |
+| Notify Service         | `83`   |
+| Submit a Bulk Claim    | `82`   |
 
 Each service exposes the following ports, where `XX` is the service suffix above:
 
@@ -107,4 +111,4 @@ So for example, the Claims API (`80`) exposes:
 | Actuator     | `8180` |
 | Remote JVM   | `5080` |
 
-> **Note:** The Event Service does not expose an app port.
+> **Note:** The Event Service and Notify Service does not expose an app port.
