@@ -8,6 +8,7 @@ declare -a SERVICES=(
   "stg-data-claims-events|laa-data-claims-event-service-staging|uat-data-claims-events|laa-data-claims-event-service-uat|prod-data-claims-events|laa-data-claims-event-service-prod|Data Claims Event"
   "laa-fee-scheme-api-staging-deployment|laa-fee-scheme-api-staging|laa-fee-scheme-api-uat-deployment|laa-fee-scheme-api-uat|laa-fee-scheme-api-prod-deployment|laa-fee-scheme-api-prod|Fee Scheme API"
   "laa-amend-a-claim|laa-amend-a-claim-staging|laa-amend-a-claim|laa-amend-a-claim-uat|laa-amend-a-claim|laa-amend-a-claim-production|Amend a Claim"
+  "stg-laa-data-claims-notify-service|laa-data-claims-notify-service-staging|uat-laa-data-claims-notify-service|laa-data-claims-notify-service-uat|prod-laa-data-claims-notify-service|laa-data-claims-notify-service-prod|Data Claims Notify Service"
 )
 
 get_image_tag() {
