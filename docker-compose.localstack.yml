@@ -1,0 +1,42 @@
+name: claims-shared
+
+# The single shared LocalStack instance, owned by the parent.
+#
+# It runs as its own compose project (`claims-shared`) attached to the external
+# `claims-local` network, so that ANY service - started from the parent full
+# stack OR standalone from its own repo - can reach it at http://localstack:4566.
+#
+# It creates NO topics or queues. Each service provisions its own resources
+# against it via that service's own `*-localstack-init` container.
+#
+# Bring it up with `task localstack` (which also creates the shared network).
+
+networks:
+  default:
+    name: claims-local
+    external: true
+
+services:
+  localstack:
+    container_name: claims-localstack
+    image: localstack/localstack:4.14.0
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=sqs,sns
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=us-east-1
+    healthcheck:
+      # Generic readiness check - confirms the SQS and SNS APIs are serving.
+      # We deliberately do NOT check for a specific queue/topic here, because
+      # those resources are created independently by each service.
+      test:
+        [
+          "CMD-SHELL",
+          "awslocal sqs list-queues > /dev/null 2>&1 && awslocal sns list-topics > /dev/null 2>&1",
+        ]
+      interval: 5s
+      retries: 10
+      timeout: 5s
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
