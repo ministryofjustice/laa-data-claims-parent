@@ -6,9 +6,25 @@ secrets:
   github_token:
     environment: GITHUB_TOKEN
 
+# All services share a single LocalStack instance. It is NOT declared here - it
+# runs as its own project (see docker-compose.localstack.yml, started by
+# `task localstack`) on the shared external `claims-local` network, which every
+# service below joins via the default-network mapping at the bottom of this file.
+#
+# Each service still provisions its OWN topic/queue/subscription via its own
+# `*-localstack-init` container (see each child docker-compose.yml):
+#   - laa-data-claims-api           -> owns the `claims-events` SNS topic
+#   - laa-data-claims-event-service -> owns `claims-api-queue` + subscription
+#   - laa-data-claims-notify-service -> owns `notify-queue` + subscription
 include:
   - laa-data-claims-api/docker-compose.yml
   - laa-data-claims-event-service/docker-compose.yml
   - laa-submit-a-bulk-claim/docker-compose.yaml
   - laa-amend-a-claim/docker-compose.yml
   - laa-data-claims-notify-service/docker-compose.yml
+
+# Join the shared LocalStack network. `task localstack` creates it.
+networks:
+  default:
+    name: claims-local
+    external: true

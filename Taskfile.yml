@@ -1,0 +1,91 @@
+version: '3'
+
+vars:
+  COMPOSE: docker compose
+  APPS: claims-api event-service notify-service sabc-ui amend-ui
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  localstack:
+    desc: Start (or no-op) the single shared LocalStack instance on the shared network
+    cmds:
+      - ./scripts/localstack-up.sh
+
+  localstack-down:
+    desc: Stop the shared LocalStack instance
+    cmds:
+      - "{{.COMPOSE}} -f docker-compose.localstack.yml down"
+
+  infra:
+    desc: Start shared LocalStack and provision ALL services' SNS/SQS resources (full fan-out)
+    deps: [localstack]
+    cmds:
+      - "{{.COMPOSE}} run --rm claims-api-localstack-init"
+      - "{{.COMPOSE}} run --rm event-service-localstack-init"
+      - "{{.COMPOSE}} run --rm notify-service-localstack-init"
+      - ./scripts/show-resources.sh
+
+  up:
+    desc: Build and start the full stack in Docker
+    deps: [localstack]
+    cmds:
+      - "{{.COMPOSE}} up -d --build {{.APPS}}"
+
+  down:
+    desc: Stop and remove all containers (keeps volumes)
+    cmds:
+      - "{{.COMPOSE}} --profile application down"
+
+  reset:
+    desc: Tear everything down including volumes, then rebuild and start the full stack
+    cmds:
+      - "{{.COMPOSE}} --profile application down -v"
+      - task: up
+
+  debug:
+    desc: 'Provision infra for debugging one app in your IDE. Usage: task debug -- <app>'
+    cmds:
+      - task: infra
+      - ./scripts/debug-hints.sh {{.CLI_ARGS}}
+
+  resources:
+    desc: List the SNS topic, SQS queues and subscriptions currently in LocalStack
+    cmds:
+      - ./scripts/show-resources.sh
+
+  ps:
+    desc: Show all stack containers across every repo (filters by the shared network)
+    cmds:
+      - docker ps -a --filter network=claims-local
+
+  logs:
+    desc: 'Tail container logs. Usage: task logs -- <service>'
+    cmds:
+      - "{{.COMPOSE}} logs -f {{.CLI_ARGS}}"
+
+  publish:bulk:
+    desc: Publish a PARSE_BULK_SUBMISSION event to claims-api-queue (local smoke test)
+    cmds:
+      - ./laa-data-claims-event-service/docker-scripts/publish-bulk-submission-event.sh
+
+  publish:validation:
+    desc: Publish a VALIDATE_SUBMISSION event to claims-api-queue (local smoke test)
+    cmds:
+      - ./laa-data-claims-event-service/docker-scripts/publish-submission-validation-event.sh
+
+  publish:notify:
+    desc: 'Publish a SUBMISSION_VALIDATION_SUCCEEDED event so notify-queue receives it. Optional: task publish:notify -- <submission-id>'
+    cmds:
+      - |
+        SUB_ID="{{.CLI_ARGS}}"
+        SUB_ID="${SUB_ID:-0561d67b-30ed-412e-8231-f6296a53538d}"
+        echo "Publishing SUBMISSION_VALIDATION_SUCCEEDED for submission_id=$SUB_ID"
+        docker exec claims-localstack awslocal sns publish \
+          --topic-arn arn:aws:sns:us-east-1:000000000000:claims-events \
+          --message "{\"submission_id\":\"$SUB_ID\"}" \
+          --message-attributes '{"SubmissionEventType":{"DataType":"String","StringValue":"SUBMISSION_VALIDATION_SUCCEEDED"}}'
