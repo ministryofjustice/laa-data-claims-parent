@@ -1,0 +1,60 @@
+version: '3'
+
+tasks:
+  assemble:all:
+    deps: [assemble:api, assemble:event-service, assemble:notify, assemble:amend, assemble:submit, assemble:oidc-mock]
+
+  assemble:api:
+    dir: laa-data-claims-api
+    cmds:
+      - ./gradlew assemble --build-cache
+
+  assemble:event-service:
+    dir: laa-data-claims-event-service
+    cmds:
+      - ./gradlew assemble --build-cache
+
+  assemble:notify:
+    dir: laa-data-claims-notify-service
+    cmds:
+      - ./gradlew assemble --build-cache
+
+  assemble:amend:
+    dir: laa-amend-a-claim
+    cmds:
+      - ./gradlew assemble --build-cache
+
+  assemble:submit:
+    dir: laa-submit-a-bulk-claim
+    cmds:
+      - ./gradlew assemble --build-cache
+
+  assemble:oidc-mock:
+    dir: laa-oidc-mock-server
+    cmds:
+      - ./gradlew assemble --build-cache
+
+  prepare:oidc-hosts:
+    dir: laa-oidc-mock-server
+    cmds:
+      - bash scripts/map-localhost-aliases.sh oidc
+
+  up:submit:deps:
+    dir: .
+    dotenv:
+      - .env
+    cmds:
+      - task: prepare:oidc-hosts
+      - task: assemble:oidc-mock
+      - task: assemble:event-service
+      - task: assemble:api
+      - docker compose up --build -d claims-api event-service laa-mock-oidc-service localstack postgres redis
+
+  up:submit:
+    dir: .
+    dotenv:
+      - .env
+    cmds:
+      - task: assemble:submit
+      - task: up:submit:deps
+      - docker compose up --build -d sabc-ui
