@@ -1,14 +1,14 @@
 [submodule "laa-submit-a-bulk-claim"]
 	path = laa-submit-a-bulk-claim
-	url = git@github.com:ministryofjustice/laa-submit-a-bulk-claim.git
+	url = https://github.com/ministryofjustice/laa-submit-a-bulk-claim.git
 	branch = main
 [submodule "laa-data-claims-event-service"]
 	path = laa-data-claims-event-service
-	url = git@github.com:ministryofjustice/laa-data-claims-event-service.git
+	url = https://github.com/ministryofjustice/laa-data-claims-event-service.git
 	branch = main
 [submodule "laa-data-claims-api"]
 	path = laa-data-claims-api
-	url = git@github.com:ministryofjustice/laa-data-claims-api.git
+	url = https://github.com/ministryofjustice/laa-data-claims-api.git
 	branch = main
 [submodule "laa-amend-a-claim"]
 	path = laa-amend-a-claim
@@ -18,3 +18,6 @@
 	path = laa-data-claims-notify-service
 	url = https://github.com/ministryofjustice/laa-data-claims-notify-service.git
 	branch = main
+[submodule "laa-oidc-mock-server"]
+	path = laa-oidc-mock-server
+	url = https://github.com/ministryofjustice/laa-oidc-mock-server

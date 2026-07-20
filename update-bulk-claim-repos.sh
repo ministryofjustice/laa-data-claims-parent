@@ -5,7 +5,8 @@ for repo in \
   laa-data-claims-event-service \
   laa-submit-a-bulk-claim \
   laa-amend-a-claim \
-  laa-data-claims-notify-service
+  laa-data-claims-notify-service \
+  laa-oidc-mock-server
 do
   if [ -d "$repo/.git" ]; then
     echo "=== Updating $repo ==="
