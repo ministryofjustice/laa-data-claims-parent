@@ -67,15 +67,6 @@ tasks:
       - task: up:submit:deps
       - docker compose up --build -d sabc-ui
 
-  up:submit:silas:
-    dir: .
-    dotenv:
-      - .env
-    cmds:
-      - task: assemble:submit
-      - task: up:submit:deps
-      - docker compose up --build -d sabc-ui-silas
-
   down:
     dir: .
     dotenv:
