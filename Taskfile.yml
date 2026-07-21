@@ -1,8 +1,16 @@
-version: '3'
+version: "3"
 
 tasks:
   assemble:all:
-    deps: [assemble:api, assemble:event-service, assemble:notify, assemble:amend, assemble:submit, assemble:oidc-mock]
+    deps:
+      [
+        assemble:api,
+        assemble:event-service,
+        assemble:notify,
+        assemble:amend,
+        assemble:submit,
+        assemble:oidc-mock,
+      ]
 
   assemble:api:
     dir: laa-data-claims-api
@@ -33,7 +41,6 @@ tasks:
     dir: laa-oidc-mock-server
     cmds:
       - ./gradlew assemble --build-cache
-      - docker build . -t laa-oidc-mock-server:latest
 
   prepare:oidc-hosts:
     dir: laa-oidc-mock-server
@@ -59,6 +66,15 @@ tasks:
       - task: assemble:submit
       - task: up:submit:deps
       - docker compose up --build -d sabc-ui
+
+  up:submit:silas:
+    dir: .
+    dotenv:
+      - .env
+    cmds:
+      - task: assemble:submit
+      - task: up:submit:deps
+      - docker compose up --build -d sabc-ui-silas
 
   down:
     dir: .
