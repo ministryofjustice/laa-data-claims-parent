@@ -58,3 +58,12 @@ tasks:
       - task: assemble:submit
       - task: up:submit:deps
       - docker compose up --build -d sabc-ui
+
+  down:
+    dir: .
+    dotenv:
+      - .env
+    cmds:
+      # claims-data apps first to avoid errors when removing the network
+      - docker compose down claims-api event-service
+      - docker compose down -v --remove-orphans
