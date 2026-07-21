@@ -33,6 +33,7 @@ tasks:
     dir: laa-oidc-mock-server
     cmds:
       - ./gradlew assemble --build-cache
+      - docker build . -t laa-oidc-mock-server:latest
 
   prepare:oidc-hosts:
     dir: laa-oidc-mock-server
