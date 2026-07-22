@@ -1,8 +1,16 @@
-version: '3'
+version: "3"
 
 tasks:
   assemble:all:
-    deps: [assemble:api, assemble:event-service, assemble:notify, assemble:amend, assemble:submit, assemble:oidc-mock]
+    deps:
+      [
+        assemble:api,
+        assemble:event-service,
+        assemble:notify,
+        assemble:amend,
+        assemble:submit,
+        assemble:oidc-mock,
+      ]
 
   assemble:api:
     dir: laa-data-claims-api
