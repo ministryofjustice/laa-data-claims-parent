@@ -34,10 +34,10 @@ tasks:
     cmds:
       - ./gradlew assemble --build-cache
 
-  prepare:oidc-hosts:
-    dir: laa-oidc-mock-server
+  prepare:hosts:
+    dir: .
     cmds:
-      - bash scripts/map-localhost-aliases.sh oidc
+      - bash scripts/map-localhost-aliases.sh oidc claims-api
 
   up:submit:deps:
     dir: .
