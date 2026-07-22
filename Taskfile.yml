@@ -59,6 +59,23 @@ tasks:
       - task: up:submit:deps
       - docker compose up --build -d sabc-ui
 
+  up:amend:deps:
+    dir: .
+    dotenv:
+      - .env
+    cmds:
+      - task: assemble:api
+      - docker compose up --build -d claims-api event-service amend-redis postgres
+
+  up:amend:
+    dir: .
+    dotenv:
+      - .env
+    cmds:
+      - task: assemble:amend
+      - task: up:amend:deps
+      - docker compose up --build -d amend-ui
+
   down:
     dir: .
     dotenv:
