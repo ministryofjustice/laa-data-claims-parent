@@ -21,3 +21,4 @@
 [submodule "laa-oidc-mock-server"]
 	path = laa-oidc-mock-server
 	url = https://github.com/ministryofjustice/laa-oidc-mock-server
+	branch = main
