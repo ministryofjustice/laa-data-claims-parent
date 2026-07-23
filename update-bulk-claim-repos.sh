@@ -8,7 +8,7 @@ for repo in \
   laa-data-claims-notify-service \
   laa-oidc-mock-server
 do
-  if [ -d "$repo/.git" ]; then
+  if [ -e "$repo/.git" ]; then
     echo "=== Updating $repo ==="
     (
       cd "$repo" || exit
