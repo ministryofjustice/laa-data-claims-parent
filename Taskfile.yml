@@ -1,7 +1,14 @@
 version: "3"
 
 tasks:
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+
   assemble:all:
+    desc: Assemble all child services
     deps:
       [
         assemble:api,
@@ -13,41 +20,49 @@ tasks:
       ]
 
   assemble:api:
+    desc: Assemble the Claims API
     dir: laa-data-claims-api
     cmds:
       - ./gradlew assemble --build-cache
 
   assemble:event-service:
+    desc: Assemble the Event Service
     dir: laa-data-claims-event-service
     cmds:
       - ./gradlew assemble --build-cache
 
   assemble:notify:
+    desc: Assemble the Notify Service
     dir: laa-data-claims-notify-service
     cmds:
       - ./gradlew assemble --build-cache
 
   assemble:amend:
+    desc: Assemble Amend a Claim
     dir: laa-amend-a-claim
     cmds:
       - ./gradlew assemble --build-cache
 
   assemble:submit:
+    desc: Assemble Submit a Bulk Claim
     dir: laa-submit-a-bulk-claim
     cmds:
       - ./gradlew assemble --build-cache
 
   assemble:oidc-mock:
+    desc: Assemble the OIDC mock server
     dir: laa-oidc-mock-server
     cmds:
       - ./gradlew assemble --build-cache
 
   prepare:oidc-hosts:
+    desc: Map localhost aliases for the OIDC mock server
     dir: laa-oidc-mock-server
     cmds:
       - bash scripts/map-localhost-aliases.sh oidc
 
   up:submit:deps:
+    desc: Start Submit a Bulk Claim backend deps (API, event-service, OIDC mock, localstack, db, redis)
     dir: .
     dotenv:
       - .env
@@ -59,6 +74,7 @@ tasks:
       - docker compose up --build -d claims-api event-service laa-mock-oidc-service localstack postgres redis
 
   up:submit:
+    desc: Start Submit a Bulk Claim full stack (deps + sabc-ui)
     dir: .
     dotenv:
       - .env
@@ -68,6 +84,7 @@ tasks:
       - docker compose up --build -d sabc-ui
 
   up:amend:deps:
+    desc: Start Amend a Claim backend deps (API, event-service, amend-redis, db)
     dir: .
     dotenv:
       - .env
@@ -76,6 +93,7 @@ tasks:
       - docker compose up --build -d claims-api event-service amend-redis postgres
 
   up:amend:
+    desc: Start Amend a Claim full stack (deps + amend-ui; set AMEND_UI_SPRING_PROFILES_ACTIVE=local in .env for mocked auth)
     dir: .
     dotenv:
       - .env
@@ -85,10 +103,9 @@ tasks:
       - docker compose up --build -d amend-ui
 
   down:
+    desc: Tear down all services and volumes
     dir: .
     dotenv:
       - .env
     cmds:
-      # claims-data apps first to avoid errors when removing the network
-      - docker compose down claims-api event-service
-      - docker compose down -v --remove-orphans
+      - docker compose --profile "*" down -v --remove-orphans
