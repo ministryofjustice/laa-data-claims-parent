@@ -82,6 +82,87 @@ be running the UI via IntelliJ:
 docker-compose up -d claims-api event-service --build
 ```
 
+## Task runner
+
+This repository uses [Task](https://taskfile.dev/) to provide shortcuts for common operations
+across the child services. Install Task by following the
+[installation guide](https://taskfile.dev/installation/), then list the available commands with:
+
+```sh
+task
+```
+
+Common tasks include:
+
+```sh
+# Assemble every child service
+task assemble:all
+
+# Assemble one child service
+task assemble:api
+
+# Start Submit a Bulk Claim and its dependencies
+task up:submit
+
+# Start Amend a Claim and its dependencies
+task up:amend
+
+# Stop all services and remove their volumes
+task down
+```
+
+Run `task --list-all` to see each task and its description.
+
+## Snyk container scanning
+
+The root [`snyk-container-scan.sh`](snyk-container-scan.sh) script builds a child service's JAR and
+Docker image, then scans the image for operating system and application dependency vulnerabilities
+with `snyk container test`.
+
+### Prerequisites
+
+- Docker
+- [Snyk CLI](https://docs.snyk.io/developer-tools/snyk-cli/install-or-update-the-snyk-cli)
+- Snyk authentication using `snyk auth`, `SNYK_TOKEN`, or both `SNYK_CLIENT_ID` and
+	`SNYK_CLIENT_SECRET`
+
+Scan one service using its Task target:
+
+```sh
+task snyk:container:claims-api
+task snyk:container:event-service
+task snyk:container:notify
+task snyk:container:amend
+task snyk:container:submit
+task snyk:container:oidc-mock
+```
+
+To build and scan every service sequentially, run:
+
+```sh
+task snyk:container:all
+```
+
+The default severity threshold is `high`. Pass script options or additional Snyk CLI arguments
+after `--`:
+
+```sh
+# Only report critical vulnerabilities
+task snyk:container:notify -- --severity-threshold critical
+
+# Scan an image that has already been built
+task snyk:container:notify -- --skip-build
+
+# Request JSON output from Snyk
+task snyk:container:notify -- --skip-build -- --json
+```
+
+Set `SNYK_SEVERITY_THRESHOLD` to change the default threshold for all scans. Each scan uses the
+selected child repository's `.snyk` policy when one exists; the OIDC mock server currently has no
+policy file.
+
+Run `./snyk-container-scan.sh --help` for direct script usage and all supported options.
+
 ## Exposed ports
 
 Given there being multiple services, ports are named based on the service and what part of that
