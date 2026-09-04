@@ -124,13 +124,13 @@ tasks:
       - docker compose up --build -d sabc-ui
 
   up:amend:deps:
-    desc: Start Amend a Claim backend deps (API, event-service, amend-redis, db)
+    desc: Start Amend a Claim backend deps (API, amend-redis, db)
     dir: .
     dotenv:
       - .env
     cmds:
       - task: assemble:api
-      - docker compose up --build -d claims-api event-service amend-redis postgres
+      - docker compose up --build -d claims-api amend-redis postgres
 
   up:amend:
     desc: Start Amend a Claim full stack (deps + amend-ui; set AMEND_UI_SPRING_PROFILES_ACTIVE=local in .env for mocked auth)
