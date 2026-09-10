@@ -142,6 +142,13 @@ tasks:
       - task: up:amend:deps
       - docker compose up --build -d amend-ui
 
+  sync:
+    desc: Check out main and pull latest in every submodule (fixes detached HEAD)
+    dir: .
+    cmds:
+      - git submodule update --init --recursive
+      - git submodule foreach 'git checkout main && git pull origin main || echo "FAILED $name"'
+
   down:
     desc: Tear down all services and volumes
     dir: .
