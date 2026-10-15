@@ -71,7 +71,7 @@ def deployed_tag(namespace, deployment):
         "",
     )
     if updated:
-        updated = datetime.fromisoformat(updated.replace("Z", "+00:00")).strftime("%Y-%m-%d %H:%M UTC")
+        updated = datetime.fromisoformat(updated.replace("Z", "+00:00")).astimezone().strftime("%Y-%m-%d %H:%M %Z")
     return image.rsplit(":", 1)[-1], updated
 
 
