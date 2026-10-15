@@ -161,6 +161,14 @@ tasks:
       - task: sync:init
       - task: sync:main
 
+  versions:
+    desc: Show which commit each environment is running and how far behind main it is
+    preconditions:
+      - sh: command -v kubectl
+        msg: "kubectl not found — install it (brew install kubectl) and log in to the cluster"
+    cmds:
+      - python3 deployed-versions.py
+
   down:
     desc: Tear down all services and volumes
     dir: .
