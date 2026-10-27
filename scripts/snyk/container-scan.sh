@@ -2,7 +2,7 @@
 set -euo pipefail
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly REPO_ROOT="${SCRIPT_DIR}"
+readonly REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 service=""
 service_dir=""
@@ -13,7 +13,7 @@ extra_snyk_args=()
 
 usage() {
   cat <<'EOF'
-Usage: ./snyk-container-scan.sh <service> [options] [-- <extra snyk args>]
+Usage: scripts/snyk/container-scan.sh <service> [options] [-- <extra snyk args>]
 
 Builds a service image locally and runs a Snyk container scan.
 
@@ -34,9 +34,9 @@ Authentication:
     SNYK_CLIENT_ID + SNYK_CLIENT_SECRET
 
 Examples:
-  ./snyk-container-scan.sh notify
-  ./snyk-container-scan.sh claims-api --severity-threshold critical
-  ./snyk-container-scan.sh oidc-mock --skip-build -- --json
+  scripts/snyk/container-scan.sh notify
+  scripts/snyk/container-scan.sh claims-api --severity-threshold critical
+  scripts/snyk/container-scan.sh oidc-mock --skip-build -- --json
 EOF
 }
 
@@ -105,8 +105,14 @@ authenticate_snyk() {
 }
 
 run_snyk_container_test() {
+  # Snyk cannot read images from Docker's containerd image store by name, so scan an exported archive
+  local archive_dir
+  archive_dir="$(mktemp -d)"
+  trap 'rm -rf "${archive_dir}"' RETURN
+  docker save "${image_name}" --output "${archive_dir}/image.tar"
+
   local snyk_args=(
-    container test "${image_name}"
+    container test "docker-archive:${archive_dir}/image.tar"
     --severity-threshold="${severity_threshold}"
   )
 
@@ -118,7 +124,10 @@ run_snyk_container_test() {
     snyk_args+=("${extra_snyk_args[@]}")
   fi
 
-  snyk "${snyk_args[@]}"
+  # Don't let set -e skip the cleanup trap when Snyk reports vulnerabilities
+  local status=0
+  snyk "${snyk_args[@]}" || status=$?
+  return "${status}"
 }
 
 while (($# > 0)); do

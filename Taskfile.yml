@@ -58,42 +58,52 @@ tasks:
   snyk:container:all:
     desc: Build and scan all service container images with Snyk
     cmds:
-      - ./snyk-container-scan.sh claims-api {{.CLI_ARGS}}
-      - ./snyk-container-scan.sh event-service {{.CLI_ARGS}}
-      - ./snyk-container-scan.sh notify {{.CLI_ARGS}}
-      - ./snyk-container-scan.sh amend {{.CLI_ARGS}}
-      - ./snyk-container-scan.sh submit {{.CLI_ARGS}}
-      - ./snyk-container-scan.sh oidc-mock {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh claims-api {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh event-service {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh notify {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh amend {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh submit {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh oidc-mock {{.CLI_ARGS}}
 
   snyk:container:claims-api:
     desc: Build and scan the Claims API container image with Snyk
     cmds:
-      - ./snyk-container-scan.sh claims-api {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh claims-api {{.CLI_ARGS}}
 
   snyk:container:event-service:
     desc: Build and scan the Event Service container image with Snyk
     cmds:
-      - ./snyk-container-scan.sh event-service {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh event-service {{.CLI_ARGS}}
 
   snyk:container:notify:
     desc: Build and scan the Notify Service container image with Snyk
     cmds:
-      - ./snyk-container-scan.sh notify {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh notify {{.CLI_ARGS}}
 
   snyk:container:amend:
     desc: Build and scan the Amend a Claim container image with Snyk
     cmds:
-      - ./snyk-container-scan.sh amend {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh amend {{.CLI_ARGS}}
 
   snyk:container:submit:
     desc: Build and scan the Submit a Bulk Claim container image with Snyk
     cmds:
-      - ./snyk-container-scan.sh submit {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh submit {{.CLI_ARGS}}
 
   snyk:container:oidc-mock:
     desc: Build and scan the OIDC mock server container image with Snyk
     cmds:
-      - ./snyk-container-scan.sh oidc-mock {{.CLI_ARGS}}
+      - ./scripts/snyk/container-scan.sh oidc-mock {{.CLI_ARGS}}
+
+  snyk:report:claims-api:
+    desc: "Generate the Claims API Snyk reports from the local laa-data-claims-api:local image (built if missing; -- --rebuild forces a rebuild). Needs jq"
+    cmds:
+      - ./scripts/snyk/snyk-report.sh {{.CLI_ARGS}}
+
+  snyk:report:event-service:
+    desc: "Generate the Event Service Snyk reports from the local laa-data-claims-event-service:local image (built if missing; -- --rebuild forces a rebuild). Needs jq"
+    cmds:
+      - ./scripts/snyk/snyk-report.sh {{.CLI_ARGS}}
 
   prepare:oidc-hosts:
     desc: Map localhost aliases for the OIDC mock server
