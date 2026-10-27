@@ -115,7 +115,7 @@ Run `task --list-all` to see each task and its description.
 
 ## Snyk container scanning
 
-The root [`snyk-container-scan.sh`](snyk-container-scan.sh) script builds a child service's JAR and
+The root [`scripts/snyk/container-scan.sh`](scripts/snyk/container-scan.sh) script builds a child service's JAR and
 Docker image, then scans the image for operating system and application dependency vulnerabilities
 with `snyk container test`.
 
@@ -161,7 +161,7 @@ Set `SNYK_SEVERITY_THRESHOLD` to change the default threshold for all scans. Eac
 selected child repository's `.snyk` policy when one exists; the OIDC mock server currently has no
 policy file.
 
-Run `./snyk-container-scan.sh --help` for direct script usage and all supported options.
+Run `./scripts/snyk/container-scan.sh --help` for direct script usage and all supported options.
 
 ## Exposed ports
 
