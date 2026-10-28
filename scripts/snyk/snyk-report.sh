@@ -4,7 +4,7 @@ set -euo pipefail
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 readonly SERVICE_DIR="${ROOT_DIR}/laa-data-claims-api"
-readonly SCRIPTS="${SERVICE_DIR}/scripts/snyk"
+readonly SCRIPTS="${SERVICE_DIR}/.github/actions/snyk-report"
 readonly IMAGE="laa-data-claims-api:local"
 
 usage() {
@@ -12,7 +12,7 @@ usage() {
 Usage: scripts/snyk/snyk-report.sh [--rebuild]
 
 Generates the Claims API Snyk report and Slack summary (the same scripts the
-security-snyk-scan workflow uses) from a scan of the local image
+snyk-report GitHub action uses) from a scan of the local image
 laa-data-claims-api:local. The image is built if it does not exist.
 
 Options:
